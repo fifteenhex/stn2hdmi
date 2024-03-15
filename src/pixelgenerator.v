@@ -5,12 +5,9 @@ module pixelgenerator
     // pixel data connection 
     input logic [9:0] x,
     input logic [9:0] y,
-    input logic x_sync,
-    input logic y_sync,
     output logic [2:0] pixel_data,
 
     // framebuffer connection
-    output logic [18:0] fb_addr,
     input logic fb_data,
 
     input logic dbg_line,
@@ -22,30 +19,18 @@ module pixelgenerator
     input logic [8:0] dbg_frame_y
 );
 
-    wire logic [32:0] lineaddress;
 
-    lineaddresscounter lineaddresscounter (
-        .x_sync(x_sync),
-        .y_sync(y_sync),
-        .linewidth(dbg_frame_width),
-        .counter(lineaddress)
-    );
 
     always @(posedge clk) begin
         if ((x < dbg_frame_width) && (y < dbg_frame_height))
             begin
-                //fb_addr <= lineaddress + x;
-                fb_addr <= x;
                 case (fb_data)
                     1'b0: pixel_data <= 3'b100;
                     1'b1: pixel_data <= 3'b111;
                 endcase
             end
         else
-            begin
-                fb_addr <= 0;
-                pixel_data <= 3'b000;
-            end
+             pixel_data <= 3'b000;
         //else if ((y == 10 && x == 10) && !dbg_frame)
         //    pixel_data <= 3'b010;
         //else if ((y == 20 && x == 10) && !dbg_line)
@@ -72,7 +57,7 @@ module pixelgenerator
         //    pixel_data <= 3'b001;
         
         /* debugging */
-        if ((!x[3:0]) || (!y[3:0])) 
-            pixel_data <= 3'b001;
+        //if ((!x[3:0]) || (!y[3:0])) 
+        //    pixel_data <= 3'b001;
     end
 endmodule

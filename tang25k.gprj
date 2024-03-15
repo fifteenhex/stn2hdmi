@@ -5,10 +5,10 @@
     <Version>5</Version>
     <Device name="GW5A-25A" pn="GW5A-LV25MG121NES">gw5a25a-000</Device>
     <FileList>
+        <File path="src/bramwrapper.v" type="file.verilog" enable="1"/>
         <File path="src/dblcdintf.v" type="file.verilog" enable="1"/>
-        <File path="src/framebuffer/framebuffer_sdpb.v" type="file.verilog" enable="1"/>
+        <File path="src/framebuffer.v" type="file.verilog" enable="1"/>
         <File path="src/hdmiintf.v" type="file.verilog" enable="1"/>
-        <File path="src/lineaddresscounter.v" type="file.verilog" enable="1"/>
         <File path="src/pixelgenerator.v" type="file.verilog" enable="1"/>
         <File path="src/resetablecounter.v" type="file.verilog" enable="1"/>
         <File path="src/top.v" type="file.verilog" enable="1"/>

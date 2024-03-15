@@ -6,15 +6,14 @@ module dblcdintf
     input logic lck,
     input logic [3:0] ld,
 
-    // Connection to framebuffer
-    output logic [31:0] addr_out,
-    output logic [3:0] data_out,
-
     // Frame information
     output logic [9:0] frame_width,
     output logic [8:0] frame_height,
     output logic [9:0] frame_x,
-    output logic [8:0] frame_y
+    output logic [8:0] frame_y,
+
+    // Basically LD..
+    output logic [3:0] data_out
 );
 
     latchingcounter counter_line (
@@ -31,18 +30,15 @@ module dblcdintf
         .counter(frame_x)
     );
 
-    latchingcounter counter_frame_pixel (
-        .clk(lck | lflm),
-        .rst(lflm),
-        .counter(addr_out)
-    );
-
     always @(posedge lck) begin
-        //addr_out <= (128 * ((16 * 10) + 8)) + (4 * 1) + 3;
-        if (frame_y < 256)
-            data_out <= 4'b1111;
-        else
-            data_out <= 0;
+        //if (frame_x > 300 && frame_y < 256)
+        //    data_out <= 4'b1111;
+        //else
+        //    data_out <= 0;
+        data_out[0] <= ld[3];
+        data_out[1] <= ld[2];
+        data_out[2] <= ld[1];
+        data_out[3] <= ld[0];
     end
 
 endmodule

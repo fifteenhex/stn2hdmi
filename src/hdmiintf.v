@@ -24,8 +24,6 @@ module hdmiintf
     // Pixel data connection
     output logic [9:0] x,
     output logic [9:0] y,
-    output logic x_sync,
-    output logic y_sync,
     input logic [2:0] pixel_data
 );
 
@@ -67,16 +65,6 @@ module hdmiintf
                 x <= 0;
                 y <= 0;
             end
-
-        if (counter_vertical >= vertical_active_start)
-            y_sync <= 0;                
-        else
-            y_sync <= 1;
-
-        if (counter_horizontal >= horizontal_active_start)
-            x_sync <= 0;
-        else
-            x_sync <= 1;
 
         // 2. sync pulse generation
         // Generate horizontal sync pulse

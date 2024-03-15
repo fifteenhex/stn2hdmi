@@ -1,5 +1,6 @@
 module top
 (
+    // tang board signals
     input logic ext_clk,
     input logic [1:0] buttons,
     // HDMI encoder signals
@@ -16,13 +17,10 @@ module top
 );
 
     wire logic [3:0] db_data_out;
-    wire logic [31:0] db_addr_out;
 
     // pixel data connections between pixelgenerator and hdmi
-    wire logic [9:0] x;
-    wire logic [9:0] y;
-    wire logic x_sync;
-    wire logic y_sync;
+    wire logic [9:0] hdmi_x;
+    wire logic [9:0] hdmi_y;
     wire logic [2:0] pixel_data;
 
     // framebuffer connections between pixelgenerator and fb
@@ -35,29 +33,26 @@ module top
     wire logic [9:0] frame_x;
     wire logic [8:0] frame_y;
 
-    framebuffer_sdpb framebuffer_sdpb_inst(
-        .clka(db_lck),     //input clka
-        .oce(1'b0),            //input oce
-        .reset(1'b0),          //input reset
-        .ada(db_addr_out),  //input [16:0] ada
-        .cea(1'b1),            //input cea
-        .din(db_data_out),  //input [3:0] din
-        .clkb(ext_clk),     //input clkb
-        .adb(pixelgenerator_fb_addr),//input [18:0] adb
-        .ceb(1'b1),            //input ceb
-        .dout(pixelgenerator_fb_data) //output [0:0] dout
+    framebuffer framebuffer_inst(
+        //
+        .in_clk(db_lck),
+        .in_y(frame_y),
+        .in_x(frame_x),
+        .in_data(db_data_out),
+        //
+        .out_clk(hdmi_clk),
+        .out_y(hdmi_y[8:0]),
+        .out_x(hdmi_x),
+        .out_data(pixelgenerator_fb_data)
     );
 
     pixelgenerator pixelgenerator_inst(
         .clk(ext_clk),
         // pixel connections
-        .x(x),
-        .y(y),
-        .x_sync(x_sync),
-        .y_sync(y_sync),
+        .x(hdmi_x),
+        .y(hdmi_y),
         .pixel_data(pixel_data),
-        // framebuffer connections
-        .fb_addr(pixelgenerator_fb_addr),
+        // framebuffer connection
         .fb_data(pixelgenerator_fb_data),
         // dbg
         .dbg_line(db_llp),
@@ -77,10 +72,8 @@ module top
         .vs(hdmi_vs),
         .hs(hdmi_hs),
         // pixel data connections
-        .x(x),
-        .y(y),
-        .x_sync(x_sync),
-        .y_sync(y_sync),
+        .x(hdmi_x),
+        .y(hdmi_y),
         .pixel_data(pixel_data)
     );
 
@@ -91,7 +84,6 @@ module top
         .lck(db_lck),
         .ld(db_ld),
         // Outputs
-        .addr_out(db_addr_out),
         .data_out(db_data_out),
         .frame_width(frame_width),
         .frame_height(frame_height),
