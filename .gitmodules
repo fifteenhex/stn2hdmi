@@ -1,0 +1,3 @@
+[submodule "src/dgprtl"]
+	path = src/dgprtl
+	url = https://github.com/fifteenhex/dgprtl.git

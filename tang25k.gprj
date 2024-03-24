@@ -7,10 +7,10 @@
     <FileList>
         <File path="src/bramwrapper.v" type="file.verilog" enable="1"/>
         <File path="src/dblcdintf.v" type="file.verilog" enable="1"/>
+        <File path="src/dgprtl/latchingcounter.v" type="file.verilog" enable="1"/>
         <File path="src/framebuffer.v" type="file.verilog" enable="1"/>
         <File path="src/hdmiintf.v" type="file.verilog" enable="1"/>
         <File path="src/pixelgenerator.v" type="file.verilog" enable="1"/>
-        <File path="src/resetablecounter.v" type="file.verilog" enable="1"/>
         <File path="src/top.v" type="file.verilog" enable="1"/>
         <File path="src/tang25k.cst" type="file.cst" enable="1"/>
         <File path="src/tang25k.sdc" type="file.sdc" enable="1"/>
